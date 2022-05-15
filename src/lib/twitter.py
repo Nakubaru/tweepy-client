@@ -97,7 +97,7 @@ class TwitterClient:
                 if hasattr(tweet, 'text') else tweet.full_text,
                 favorite=tweet.favorite_count,
                 retweet=tweet.retweet_count,
-                created_at=datetime.datetime.now().strftime(DATETIME_FORMAT)
+                searched_at=datetime.datetime.now().strftime(DATETIME_FORMAT)
             )
             for tweet in tweets
         ]
