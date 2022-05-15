@@ -37,21 +37,30 @@ class TwitterClient:
         self._create_api(wait_on_rate_limit=self._wait_on_rate_limit)
 
     def _create_client(self):
-        self._client = tweepy.Client(
-            bearer_token=self._bearer_token,
-            consumer_key=self._consumer_key,
-            consumer_secret=self._consumer_secret,
-            access_token=self._access_token,
-            access_token_secret=self._access_token_secret
-        )
+        try:
+            self._client = tweepy.Client(
+                bearer_token=self._bearer_token,
+                consumer_key=self._consumer_key,
+                consumer_secret=self._consumer_secret,
+                access_token=self._access_token,
+                access_token_secret=self._access_token_secret
+            )
+        except Exception as e:
+            print(e)
+            raise
 
     def _create_api(self, wait_on_rate_limit: bool = True):
-        self._auth = tweepy.OAuthHandler(consumer_key=self._consumer_key,
-                                         consumer_secret=self._consumer_secret)
-        self._auth.set_access_token(key=self._access_token,
-                                    secret=self._access_token_secret)
-        self._api = tweepy.API(self._auth,
-                               wait_on_rate_limit=wait_on_rate_limit)
+        try:
+            self._auth = \
+                tweepy.OAuthHandler(consumer_key=self._consumer_key,
+                                    consumer_secret=self._consumer_secret)
+            self._auth.set_access_token(key=self._access_token,
+                                        secret=self._access_token_secret)
+            self._api = tweepy.API(self._auth,
+                                   wait_on_rate_limit=wait_on_rate_limit)
+        except Exception as e:
+            print(e)
+            raise
 
     @staticmethod
     def _get_query(keyword: Union[str, List[str]],
@@ -108,7 +117,7 @@ class TwitterClient:
 
         try:
             tweets = self._api.search_tweets(q=query,
-                                            count=count,
+                                             count=count,
                                              result_type=self._RESULT_RECENT,
                                              tweet_mode=self._FULL_TEXT,
                                              include_entities=True)
