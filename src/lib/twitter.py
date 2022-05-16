@@ -32,9 +32,8 @@ class TwitterClient:
             access_token or os.getenv('ACCESS_TOKEN')
         self._access_token_secret = \
             access_token_secret or os.getenv('ACCESS_TOKEN_SECRET')
-        self._wait_on_rate_limit = wait_on_rate_limit
         # self._create_client()
-        self._create_api(wait_on_rate_limit=self._wait_on_rate_limit)
+        self._create_api(wait_on_rate_limit=wait_on_rate_limit)
 
     def _create_client(self):
         try:
