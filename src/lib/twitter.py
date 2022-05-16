@@ -86,6 +86,8 @@ class TwitterClient:
     @classmethod
     def _tweet_summarize(cls, tweets: Union[tweepy.models.ResultSet,
                                             tweepy.models.SearchResults]):
+        searched_at = datetime.datetime.now().strftime(DATETIME_FORMAT)
+
         return [
             dict(
                 tweet_id=tweet.id,
@@ -97,7 +99,7 @@ class TwitterClient:
                 if hasattr(tweet, 'text') else tweet.full_text,
                 favorite=tweet.favorite_count,
                 retweet=tweet.retweet_count,
-                searched_at=datetime.datetime.now().strftime(DATETIME_FORMAT)
+                searched_at=searched_at
             )
             for tweet in tweets
         ]
